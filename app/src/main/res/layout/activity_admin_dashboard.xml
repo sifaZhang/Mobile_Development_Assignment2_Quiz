@@ -32,20 +32,20 @@
                 android:text="Please select an option:"/>
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Create a Tournament"
-                style="@style/AppButtonPrimaryStyle"
-                android:layout_marginTop="10dp"
-                android:id="@+id/btnCreate"/>
-
-            <Button
-                android:layout_width="wrap_content"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content"
                 android:text="View Tournaments"
                 android:layout_marginTop="10dp"
                 style="@style/AppButtonPrimaryStyle"
                 android:id="@+id/btnView"/>
+
+            <Button
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:text="Create a Tournament"
+                style="@style/AppButtonPrimaryStyle"
+                android:layout_marginTop="10dp"
+                android:id="@+id/btnCreate"/>
 
         </LinearLayout>
     </LinearLayout>

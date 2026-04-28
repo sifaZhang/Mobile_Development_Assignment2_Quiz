@@ -29,6 +29,7 @@ import com.group1.quiz.Retrofit.RetrofitClient;
 import com.group1.quiz.models.CategoryModel;
 import com.group1.quiz.models.QuestionModel;
 import com.group1.quiz.models.TournamentModel;
+import com.group1.quiz.utils.BaseActivity;
 import com.group1.quiz.utils.FirebaseHelper_Tournaments;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CreateTournamentActivity extends AppCompatActivity {
+public class CreateTournamentActivity extends BaseActivity {
 
     EditText etName;
     Spinner spCategory, spDifficulty;
@@ -53,6 +54,7 @@ public class CreateTournamentActivity extends AppCompatActivity {
 
     int selectedCategoryId = -1;
     String selectedDifficulty = "easy";
+    String selectedCategory = "General Knowledge";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +124,7 @@ public class CreateTournamentActivity extends AppCompatActivity {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         selectedCategoryId = categoryIds.get(position);
+                        selectedCategory = spCategory.getSelectedItem().toString();
                     }
 
                     @Override
@@ -219,7 +222,7 @@ public class CreateTournamentActivity extends AppCompatActivity {
 
                 TournamentModel model = new TournamentModel();
                 model.name = name;
-                model.category = selectedCategoryId;
+                model.category = selectedCategory;
                 model.difficulty = selectedDifficulty;
                 model.startDate = startDate;
                 model.endDate = endDate;

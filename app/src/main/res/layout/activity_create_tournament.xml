@@ -166,6 +166,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Create Tournament"
+                style="@style/AppButtonPrimaryStyle"
                 android:layout_marginTop="20dp" />
 
             <!-- ProgressBar -->
