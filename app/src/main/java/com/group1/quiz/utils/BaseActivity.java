@@ -91,7 +91,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void setupUsername() {
         Users user = UserManager.getInstance().getUser();
         if (user != null) {
-            tvHeaderUsername.setText(user.getName());
+            tvHeaderUsername.setText("Hi," + user.getName());
         }
     }
 

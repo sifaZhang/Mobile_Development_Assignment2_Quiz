@@ -10,13 +10,44 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <!-- Header -->
         <include
             layout="@layout/layout_common_header"
             android:id="@+id/header" />
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextStyle1"
+                android:textSize="18sp"
+                android:text="Please select an option:"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create a Tournament"
+                style="@style/AppButtonPrimaryStyle"
+                android:layout_marginTop="10dp"
+                android:id="@+id/btnCreate"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View Tournaments"
+                android:layout_marginTop="10dp"
+                style="@style/AppButtonPrimaryStyle"
+                android:id="@+id/btnView"/>
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

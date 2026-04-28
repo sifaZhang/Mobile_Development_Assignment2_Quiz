@@ -1,6 +1,9 @@
 package com.group1.quiz.admin;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +15,8 @@ import com.group1.quiz.R;
 import com.group1.quiz.utils.BaseActivity;
 
 public class AdminDashboardActivity extends BaseActivity {
+
+    Button btnCreate, btnView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,5 +30,26 @@ public class AdminDashboardActivity extends BaseActivity {
         });
 
         tvHeaderTitle.setText("Admin Dashboard");
+
+        btnCreate = findViewById(R.id.btnCreate);
+        btnView = findViewById(R.id.btnView);
+
+        btnCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle button click
+                Intent intent = new Intent(AdminDashboardActivity.this, CreateTournamentActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle button click
+                Intent intent = new Intent(AdminDashboardActivity.this, ViewAllTournamentActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
