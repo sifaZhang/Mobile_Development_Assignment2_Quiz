@@ -15,10 +15,8 @@
             android:id="@+id/header" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="12dp">
+            style="@style/InnerLayout"
+            android:gravity="top">
 
             <!-- Tournament Name -->
             <LinearLayout

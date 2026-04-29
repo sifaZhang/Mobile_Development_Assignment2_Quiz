@@ -17,6 +17,9 @@
             layout="@layout/layout_common_header"
             android:id="@+id/header" />
 
+        <LinearLayout
+            style="@style/InnerLayout">
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

@@ -17,6 +17,24 @@
             layout="@layout/layout_common_header"
             android:id="@+id/header" />
 
+        <LinearLayout
+            style="@style/InnerLayout">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:text="Tournaments"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewTournaments"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>
