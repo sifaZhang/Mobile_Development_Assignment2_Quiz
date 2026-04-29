@@ -131,7 +131,7 @@ public class TournamentDetailActivity extends BaseActivity {
                 return;
             }
 
-            if (!upcoming) {
+            if (upcoming) {
                 btnAction.setText("Waiting for Start");
                 btnAction.setEnabled(false);
                 return;
