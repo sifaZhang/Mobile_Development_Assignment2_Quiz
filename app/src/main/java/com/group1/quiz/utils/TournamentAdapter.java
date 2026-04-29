@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.group1.quiz.common.AppConstants;
 import com.group1.quiz.models.TournamentModel;
 import com.group1.quiz.R;
 
@@ -42,6 +43,11 @@ public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.Vi
         holder.tvDifficulty.setText("Difficulty: " + t.difficulty);
         holder.tvDate.setText("Date: " + t.startDate + " - " + t.endDate);
         holder.ratingBar.setRating((float) t.rating);
+        if (t.ratingCount == 0){
+            holder.tvRatingCount.setText("Rating: " + AppConstants.NO_RATINGS);
+        } else {
+            holder.tvRatingCount.setText("Rating: (" + t.ratingCount + " ratings)");
+        }
 
         // Edit button
         holder.btnEdit.setOnClickListener(v -> {
@@ -61,7 +67,7 @@ public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.Vi
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvName, tvCategory, tvDifficulty, tvDate;
+        TextView tvName, tvCategory, tvDifficulty, tvDate, tvRatingCount;
         RatingBar ratingBar;
         Button btnEdit, btnDelete;
 
@@ -72,6 +78,7 @@ public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.Vi
             tvCategory = itemView.findViewById(R.id.tvCategory);
             tvDifficulty = itemView.findViewById(R.id.tvDifficulty);
             tvDate = itemView.findViewById(R.id.tvDate);
+            tvRatingCount = itemView.findViewById(R.id.tvRatingCount);
             ratingBar = itemView.findViewById(R.id.ratingBar);
             btnEdit = itemView.findViewById(R.id.btnEdit);
             btnDelete = itemView.findViewById(R.id.btnDelete);

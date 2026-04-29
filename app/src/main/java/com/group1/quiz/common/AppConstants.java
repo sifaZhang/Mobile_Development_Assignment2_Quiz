@@ -2,6 +2,7 @@ package com.group1.quiz.common;
 
 public class AppConstants {
     public static String BK_COLOR = "#E7EFE6";
+    public static String NO_RATINGS = "(No ratings yet)";
 
     public static class PrefUser {
         public static final String PREF_NAME = "QuizPrefs";
