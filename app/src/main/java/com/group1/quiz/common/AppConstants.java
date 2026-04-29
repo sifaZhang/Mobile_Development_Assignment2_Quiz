@@ -14,4 +14,13 @@ public class AppConstants {
         public static final String ADMIN = "admin";
 
     }
+
+    public static class FilterType {
+        public static final String ONGOING = "ongoing";
+        public static final String UPCOMING = "upcoming";
+        public static final String PAST = "past";
+        public static final String PARTICIPATED = "participated";
+
+        public static final String FILTER_TYPE = "filterType"; // Intent key
+    }
 }

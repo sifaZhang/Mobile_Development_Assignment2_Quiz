@@ -35,6 +35,12 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="TextStyle3">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <style name="DashboardCardStyle" parent="Widget.MaterialComponents.CardView">
         <item name="android:layout_height">100dp</item>
         <item name="android:layout_marginBottom">16dp</item>

@@ -52,7 +52,7 @@
 
                     <TextView
                         android:text="Ongoing Tournaments"
-                        android:textSize="18sp"
+                        style="@style/TextStyle3"
                         android:layout_marginStart="16dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -78,7 +78,7 @@
 
                     <TextView
                         android:text="Upcoming Tournaments"
-                        android:textSize="18sp"
+                        style="@style/TextStyle3"
                         android:layout_marginStart="16dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -104,7 +104,7 @@
 
                     <TextView
                         android:text="Past Tournaments"
-                        android:textSize="18sp"
+                        style="@style/TextStyle3"
                         android:layout_marginStart="16dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -130,7 +130,7 @@
 
                     <TextView
                         android:text="Participated Tournaments"
-                        android:textSize="18sp"
+                        style="@style/TextStyle3"
                         android:layout_marginStart="16dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -156,7 +156,7 @@
 
                     <TextView
                         android:text="Customise Your Quiz"
-                        android:textSize="18sp"
+                        style="@style/TextStyle3"
                         android:layout_marginStart="16dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />

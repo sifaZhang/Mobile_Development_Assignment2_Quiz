@@ -48,7 +48,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             return;
         }
 
-        setupLogoClicke();
+        setupLogoClick();
         setupUsername();
         setupUsernameClick();
     }
@@ -95,7 +95,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    private void setupLogoClicke() {
+    private void setupLogoClick() {
         imgHeaderLogo.setOnClickListener(v -> {
             Users user = UserManager.getInstance().getUser();
             if (user != null && user.getRole() != null) {

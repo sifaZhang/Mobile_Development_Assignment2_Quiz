@@ -24,6 +24,6 @@ public class TournamentListActivity extends BaseActivity {
             return insets;
         });
 
-        setHeaderTitle("Customize List");
+        setHeaderTitle("Tournament List");
     }
 }
