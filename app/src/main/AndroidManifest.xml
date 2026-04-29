@@ -12,6 +12,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Quiz">
         <activity
+            android:name=".player.QuizResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".player.QuizQuestionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".player.TournamentDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".player.TournamentListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".player.CustomQuizActivity"
+            android:exported="false" />
+        <activity
             android:name=".admin.ViewAllTournamentActivity"
             android:exported="false" />
         <activity
