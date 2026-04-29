@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.group1.quiz.R;
+import com.group1.quiz.common.AppConstants;
 import com.group1.quiz.models.TournamentModel;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class TournamentPlayerAdapter extends RecyclerView.Adapter<TournamentPlay
 
         // 显示评分人数
         if (t.ratingCount == 0) {
-            holder.tvRatingCount.setText("Rating: (No ratings yet)");
+            holder.tvRatingCount.setText("Rating: " + AppConstants.NO_RATINGS);
         } else {
             holder.tvRatingCount.setText("Rating: (" + t.ratingCount + " ratings)");
         }

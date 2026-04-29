@@ -20,6 +20,7 @@ import com.group1.quiz.utils.BaseActivity;
 import com.group1.quiz.utils.FirebaseHelper_Tournaments;
 import com.group1.quiz.utils.UserManager;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -100,49 +101,53 @@ public class TournamentDetailActivity extends BaseActivity {
 
         // Rating
         ratingBar.setRating((float) tournament.rating);
-        tvRatingCount.setText("Rating Count: " + tournament.ratingCount);
+        if (tournament.ratingCount == 0) {
+            tvRatingCount.setText(AppConstants.NO_RATINGS);
+        } else {
+            tvRatingCount.setText("Rating Count: " + tournament.ratingCount);
+        }
 
         // Determine button state
-        long now = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        long start = 0;
-        long end = 0;
         try {
-            start = sdf.parse(tournament.startDate).getTime();
-            end = sdf.parse(tournament.endDate).getTime();
-        } catch (Exception e) {
-            btnAction.setText("Error");
+            long now = System.currentTimeMillis();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            long start = sdf.parse(tournament.startDate).getTime();
+            long end = sdf.parse(tournament.endDate).getTime();
+
+            boolean ongoing = now >= start && now <= end;
+            boolean ended = end < now;
+            boolean upcoming = start > now;
+            boolean joined = tournament.participants != null && tournament.participants.containsKey(currentUserId);
+
+            if (joined) {
+                btnAction.setText("Joined Tournament");
+                btnAction.setEnabled(false);
+                return;
+            }
+
+            if (ended) {
+                btnAction.setText("Tournament Ended");
+                btnAction.setEnabled(false);
+                return;
+            }
+
+            if (!upcoming) {
+                btnAction.setText("Waiting for Start");
+                btnAction.setEnabled(false);
+                return;
+            }
+
+            // no Joined + ongoing → Start Quiz
+            if (ongoing) {
+                btnAction.setText("Start Quiz");
+                btnAction.setEnabled(true);
+                btnAction.setOnClickListener(v -> startQuiz());
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            btnAction.setText("Date Error");
             btnAction.setEnabled(false);
-            return;
         }
-
-        boolean ongoing = now >= start && now <= end;
-        boolean ended = end < now;
-        boolean upcoming = start > now;
-        boolean joined = tournament.participants.containsKey(currentUserId);
-
-        if (joined) {
-            btnAction.setText("Joined Tournament");
-            btnAction.setEnabled(false);
-            return;
-        }
-
-        if (ended) {
-            btnAction.setText("Tournament Ended");
-            btnAction.setEnabled(false);
-            return;
-        }
-
-        if (!ongoing) {
-            btnAction.setText("Waiting for Start");
-            btnAction.setEnabled(false);
-            return;
-        }
-
-        // no Joined + ongoing → Start Quiz
-        btnAction.setText("Start Quiz");
-        btnAction.setEnabled(true);
-        btnAction.setOnClickListener(v -> startQuiz());
     }
 
     private void startQuiz() {
