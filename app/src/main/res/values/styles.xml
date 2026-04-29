@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="AppButtonPrimaryStyle" parent="Widget.Material3.Button">
-        <item name="android:backgroundTint">#006400</item>
+        <item name="android:backgroundTint">@color/btn_primary_bg</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
@@ -37,6 +37,12 @@
 
     <style name="TextStyle3">
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextStyle4">
+        <item name="android:layout_marginBottom">10dp</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
