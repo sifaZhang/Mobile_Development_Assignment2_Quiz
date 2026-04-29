@@ -8,41 +8,39 @@
     android:background="@drawable/rounded_bg"
     android:layout_marginBottom="12dp">
 
-    <!-- LEFT SIDE: Tournament Info -->
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/tvName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="Tournament Name"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginBottom="6dp"/>
+            android:layout_marginBottom="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/tvCategory"
+            android:text="Category: General"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Category: 9" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/tvDifficulty"
+            android:text="Difficulty: Medium"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Difficulty: easy" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/tvDate"
+            android:text="Date: 2026-05-01 - 2026-05-03"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Date: From 2026-05-01 to 2026-05-31" />
+            android:layout_height="wrap_content" />
 
-        <!-- Rating -->
+        <!-- Rating row -->
         <TextView
             android:id="@+id/tvRatingCount"
             android:text="Rating: (0 ratings)"
@@ -64,33 +62,6 @@
             android:stepSize="0.5"
             android:translationX="-76dp" />
 
-    </LinearLayout>
-
-    <!-- RIGHT SIDE: Buttons (vertical) -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:paddingLeft="2dp"
-        android:orientation="vertical"
-        android:gravity="center">
-
-        <Button
-            android:id="@+id/btnEdit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Edit"
-            android:layout_marginBottom="8dp"
-            android:textSize="16sp"
-            style="@style/AppButtonPrimaryStyle"/>
-
-        <Button
-            android:id="@+id/btnDelete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Delete"
-            android:backgroundTint="#D9534F"
-            android:textSize="16sp"
-            style="@style/AppButtonPrimaryStyle"/>
     </LinearLayout>
 
 </LinearLayout>

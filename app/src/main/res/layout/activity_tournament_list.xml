@@ -23,9 +23,7 @@
             <TextView
                 android:id="@+id/tvTitle"
                 android:text="Tournaments"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="16dp"
+                style="@style/SectionTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

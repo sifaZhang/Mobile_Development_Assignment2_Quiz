@@ -152,10 +152,13 @@
 
                 <RatingBar
                     android:id="@+id/ratingBar"
-                    android:layout_width="wrap_content"
+                    android:layout_width="245dp"
                     android:layout_height="wrap_content"
                     android:numStars="5"
-                    android:stepSize="1" />
+                    android:scaleX="0.6"
+                    android:scaleY="0.6"
+                    android:stepSize="0.5"
+                    android:translationX="-36dp" />
             </LinearLayout>
 
             <!-- Create Button -->

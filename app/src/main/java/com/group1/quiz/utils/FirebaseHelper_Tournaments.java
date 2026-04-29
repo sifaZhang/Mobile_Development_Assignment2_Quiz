@@ -7,9 +7,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.group1.quiz.common.AppConstants;
+import com.group1.quiz.common.FirebaseNodes;
 import com.group1.quiz.models.TournamentModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FirebaseHelper_Tournaments {
 
@@ -17,7 +20,7 @@ public class FirebaseHelper_Tournaments {
 
     public FirebaseHelper_Tournaments() {
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        tournamentsRef = db.getReference("tournaments");
+        tournamentsRef = db.getReference(FirebaseNodes.TOURNAMENTS);
     }
 
     // ---------------------------------------------------------
@@ -29,6 +32,11 @@ public class FirebaseHelper_Tournaments {
         if (id == null) {
             listener.onFailure("Failed to generate ID");
             return;
+        }
+
+        // Admin 初始评分
+        if (model.ratingCount == 0) {
+            model.ratingCount = 1;
         }
 
         tournamentsRef.child(id).setValue(model)
@@ -53,9 +61,16 @@ public class FirebaseHelper_Tournaments {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     TournamentModel model = ds.getValue(TournamentModel.class);
                     if (model != null) {
-                        model.tournamentId = ds.getKey(); // 保存 Firebase ID
+                        model.tournamentId = ds.getKey();
+
+                        // 确保 participants 不为 null
+                        if (model.participants == null) {
+                            model.participants = new HashMap<>();
+                        }
+
                         list.add(model);
                     }
+
                 }
 
                 listener.onReceived(list);
@@ -70,6 +85,39 @@ public class FirebaseHelper_Tournaments {
 
     public interface OnTournamentListListener {
         void onReceived(ArrayList<TournamentModel> list);
+        void onError(String error);
+    }
+
+    // ---------------------------------------------------------
+    // READ ONE
+    // ---------------------------------------------------------
+    public void getTournamentById(String id, OnTournamentLoadedListener listener) {
+        tournamentsRef.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                TournamentModel model = snapshot.getValue(TournamentModel.class);
+                if (model != null) {
+                    model.tournamentId = snapshot.getKey();
+
+                    // 确保 participants 不为 null
+                    if (model.participants == null) {
+                        model.participants = new HashMap<>();
+                    }
+
+                    listener.onLoaded(model);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onError(error.getMessage());
+            }
+        });
+    }
+
+    public interface OnTournamentLoadedListener {
+        void onLoaded(TournamentModel model);
         void onError(String error);
     }
 
@@ -100,4 +148,53 @@ public class FirebaseHelper_Tournaments {
         void onSuccess();
         void onFailure(String error);
     }
+
+    // ---------------------------------------------------------
+    // UPDATE RATING
+    // ---------------------------------------------------------
+    public void updateRating(String tournamentId, double newRating, OnRatingUpdatedListener listener) {
+        tournamentsRef.child(tournamentId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                TournamentModel model = snapshot.getValue(TournamentModel.class);
+
+                if (model == null) {
+                    listener.onFailure("Tournament not found");
+                    return;
+                }
+
+                // 计算新的平均分
+                double oldRating = model.rating;
+                int oldCount = model.ratingCount;
+
+                double updatedRating = (oldRating * oldCount + newRating) / (oldCount + 1);
+
+                model.rating = updatedRating;
+                model.ratingCount = oldCount + 1;
+
+                // 写回数据库
+                tournamentsRef.child(tournamentId).setValue(model)
+                        .addOnSuccessListener(unused -> listener.onSuccess(updatedRating, model.ratingCount))
+                        .addOnFailureListener(e -> listener.onFailure(e.getMessage()));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onFailure(error.getMessage());
+            }
+        });
+    }
+
+    public interface OnRatingUpdatedListener {
+        void onSuccess(double newAvg, int newCount);
+        void onFailure(String error);
+    }
+
+    public void addParticipant(String tournamentId, String userId) {
+        tournamentsRef.child(tournamentId)
+                .child("participants")
+                .child(userId)
+                .setValue(true);
+    }
+
 }
