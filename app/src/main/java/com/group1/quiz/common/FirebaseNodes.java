@@ -32,7 +32,6 @@ public class FirebaseNodes {
     }
 
     public static class QuestionType {
-        public static final String SINGLE = "single";
         public static final String MULTIPLE = "multiple";
         public static final String BOOLEAN = "boolean";   // True/False
     }

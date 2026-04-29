@@ -23,7 +23,9 @@ public class AppConstants {
         public static final String PARTICIPATED = "participated";
 
         public static final String FILTER_TYPE = "filterType"; // Intent key
-
         public static final String TOURNAMENT_ID = "tournamentId"; // Intent key
+        public static final String QUESTIONS = "questions"; // Intent key
+        public static final String SCORE = "score"; // Intent key
+        public static final String TOTAL_QUESTION = "total"; // Intent key
     }
 }

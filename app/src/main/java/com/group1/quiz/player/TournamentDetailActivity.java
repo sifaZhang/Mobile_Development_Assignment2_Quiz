@@ -14,14 +14,17 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.group1.quiz.R;
+import com.group1.quiz.auth.LoginActivity;
 import com.group1.quiz.common.AppConstants;
 import com.group1.quiz.models.TournamentModel;
+import com.group1.quiz.models.Users;
 import com.group1.quiz.utils.BaseActivity;
 import com.group1.quiz.utils.FirebaseHelper_Tournaments;
 import com.group1.quiz.utils.UserManager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class TournamentDetailActivity extends BaseActivity {
@@ -49,8 +52,14 @@ public class TournamentDetailActivity extends BaseActivity {
 
         setHeaderTitle("Tournament Detail");
 
-        tournamentId = getIntent().getStringExtra("tournamentId");
-        currentUserId = UserManager.getInstance().getUser().getUid();
+        tournamentId = getIntent().getStringExtra(AppConstants.FilterType.TOURNAMENT_ID);
+        Users user = UserManager.getInstance().getUser();
+        if (user == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+        currentUserId = user.getUid();
 
         initViews();
         loadTournament();
@@ -153,6 +162,7 @@ public class TournamentDetailActivity extends BaseActivity {
     private void startQuiz() {
          Intent intent = new Intent(this, QuizQuestionActivity.class);
          intent.putExtra(AppConstants.FilterType.TOURNAMENT_ID, tournamentId);
+         intent.putExtra(AppConstants.FilterType.QUESTIONS, new ArrayList<>(tournament.questions));
          startActivity(intent);
     }
 }

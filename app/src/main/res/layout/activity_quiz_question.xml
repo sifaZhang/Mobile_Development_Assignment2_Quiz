@@ -19,6 +19,101 @@
 
         <LinearLayout
             style="@style/InnerLayout">
+
+            <TextView
+                android:id="@+id/tvQuestionNumber"
+                android:text="Question 1/10"
+                style="@style/SectionTitle"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tvQuestion"
+                style="@style/TextStyle3"
+                android:text="Question Title"
+                android:layout_marginBottom="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <!-- MULTIPLE CHOICE -->
+            <LinearLayout
+                android:id="@+id/layoutMultiple"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioGroup
+                    android:id="@+id/rgMultiple"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/rb1"
+                        android:text="Choice 1"
+                        style="@style/TextStyle4"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent" />
+                    <RadioButton
+                        android:id="@+id/rb2"
+                        android:text="Choice 2"
+                        style="@style/TextStyle4"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent" />
+                    <RadioButton
+                        android:id="@+id/rb3"
+                        android:text="Choice 3"
+                        style="@style/TextStyle4"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent" />
+                    <RadioButton
+                        android:id="@+id/rb4"
+                        android:text="Choice 4"
+                        style="@style/TextStyle4"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent" />
+
+                </RadioGroup>
+            </LinearLayout>
+
+            <!-- BOOLEAN -->
+            <LinearLayout
+                android:id="@+id/layoutBoolean"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioGroup
+                    android:id="@+id/rgBoolean"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/rbTrue"
+                        android:text="True"
+                        style="@style/TextStyle4"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"/>
+
+                    <RadioButton
+                        android:id="@+id/rbFalse"
+                        android:text="False"
+                        style="@style/TextStyle4"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"/>
+
+                </RadioGroup>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnNext"
+                android:text="Next"
+                style="@style/AppButtonPrimaryStyle"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
 

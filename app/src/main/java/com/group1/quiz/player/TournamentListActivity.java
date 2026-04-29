@@ -14,8 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.group1.quiz.R;
+import com.group1.quiz.auth.LoginActivity;
 import com.group1.quiz.common.AppConstants;
 import com.group1.quiz.models.TournamentModel;
+import com.group1.quiz.models.Users;
 import com.group1.quiz.utils.BaseActivity;
 import com.group1.quiz.utils.FirebaseHelper_Tournaments;
 import com.group1.quiz.utils.TournamentPlayerAdapter;
@@ -49,7 +51,14 @@ public class TournamentListActivity extends BaseActivity {
 
         setHeaderTitle("Tournament List");
 
-        currentUserId = UserManager.getInstance().getUser().getUid();
+        Users user = UserManager.getInstance().getUser();
+        if (user == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+
+        currentUserId = user.getUid();
         filterType = getIntent().getStringExtra(AppConstants.FilterType.FILTER_TYPE);
 
         TextView tvTitle = findViewById(R.id.tvTitle);
