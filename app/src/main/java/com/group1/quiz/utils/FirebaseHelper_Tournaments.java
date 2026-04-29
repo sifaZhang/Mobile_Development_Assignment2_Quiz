@@ -2,6 +2,7 @@ package com.group1.quiz.utils;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,15 +29,9 @@ public class FirebaseHelper_Tournaments {
     // ---------------------------------------------------------
     public void createTournament(TournamentModel model, OnTournamentCreatedListener listener) {
         String id = tournamentsRef.push().getKey();
-
         if (id == null) {
             listener.onFailure("Failed to generate ID");
             return;
-        }
-
-        // Admin 初始评分
-        if (model.ratingCount == 0) {
-            model.ratingCount = 1;
         }
 
         tournamentsRef.child(id).setValue(model)
@@ -174,7 +169,13 @@ public class FirebaseHelper_Tournaments {
 
                 // 写回数据库
                 tournamentsRef.child(tournamentId).setValue(model)
-                        .addOnSuccessListener(unused -> listener.onSuccess(updatedRating, model.ratingCount))
+                        .addOnSuccessListener(unused -> {
+                            // 同步记录参与者
+                            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            addParticipant(tournamentId, userId);
+
+                            listener.onSuccess(updatedRating, model.ratingCount);
+                        })
                         .addOnFailureListener(e -> listener.onFailure(e.getMessage()));
             }
 
@@ -196,5 +197,4 @@ public class FirebaseHelper_Tournaments {
                 .child(userId)
                 .setValue(true);
     }
-
 }
