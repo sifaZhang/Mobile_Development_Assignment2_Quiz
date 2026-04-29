@@ -198,6 +198,10 @@ public class CreateTournamentActivity extends BaseActivity {
             Toast.makeText(this, "End date must be after start date", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (selectedCategoryId == -1) {
+            Toast.makeText(this, "Please wait for categories to load", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         progressBar.setVisibility(View.VISIBLE);
 
@@ -205,7 +209,7 @@ public class CreateTournamentActivity extends BaseActivity {
         Call<OpenTdbResponse> call = api.getQuestions(
                 10,
                 selectedCategoryId,
-                selectedDifficulty,
+                selectedDifficulty.toLowerCase(),
                 null
         );
 
@@ -219,6 +223,14 @@ public class CreateTournamentActivity extends BaseActivity {
                 }
 
                 List<QuestionModel> questions = response.body().results;
+                int code = response.body().response_code;
+                android.util.Log.d("API", "CategoryId=" + selectedCategoryId + ", Difficulty=" + selectedDifficulty + ", Category=" + selectedCategory + ", " + "response_code=" + code + ", questions=" + questions.size());
+
+                if (questions.size() == 0){
+                    Toast.makeText(CreateTournamentActivity.this, "No questions found", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    return;
+                }
 
                 TournamentModel model = new TournamentModel();
                 model.name = name;
