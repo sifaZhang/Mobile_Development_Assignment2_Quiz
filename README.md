@@ -60,9 +60,8 @@ Retrofit
 RecyclerView + CardView
 
 📥 How to Run the App
-Clone the repository:
-
-Code
+1.Clone the repository:
+Code：
 git clone https://github.com/yourusername/your-repo-name.git
 Open the project in Android Studio.
 
@@ -74,3 +73,8 @@ Add your own google-services.json to /app folder.
 Run the app on:
 Android Emulator
 Physical Android device
+
+2.Install APK
+GitHub Release (APK Download):(https://github.com/sifaZhang/Mobile_Development_Assignment2_Quiz/releases/tag/V1.0)
+Download and send it to your Android deviceto install.
+
