@@ -75,6 +75,6 @@ Android Emulator
 Physical Android device
 
 2.Install APK
-GitHub Release (APK Download):(https://github.com/sifaZhang/Mobile_Development_Assignment2_Quiz/releases/tag/V1.0)
-Download and send it to your Android deviceto install.
+GitHub Release (APK Download): (https://github.com/sifaZhang/Mobile_Development_Assignment2_Quiz/releases/tag/V1.1)
+Download and send it to your Android device to install.
 
