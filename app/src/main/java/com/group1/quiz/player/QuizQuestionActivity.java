@@ -23,6 +23,7 @@ import com.group1.quiz.common.FirebaseNodes;
 import com.group1.quiz.models.QuestionModel;
 import com.group1.quiz.utils.BaseActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -54,7 +55,17 @@ public class QuizQuestionActivity extends BaseActivity {
         setHeaderTitle("Questions");
 
         tournamentId = getIntent().getStringExtra(AppConstants.FilterType.TOURNAMENT_ID);
-        questions = (ArrayList<QuestionModel>) getIntent().getSerializableExtra(AppConstants.FilterType.QUESTIONS);
+        Serializable data = getIntent().getSerializableExtra(AppConstants.FilterType.QUESTIONS,  ArrayList.class);
+        if (data instanceof ArrayList<?>) {
+            ArrayList<?> rawList = (ArrayList<?>) data;
+            questions = new ArrayList<>();
+
+            for (Object obj : rawList) {
+                if (obj instanceof QuestionModel) {
+                    questions.add((QuestionModel) obj);
+                }
+            }
+        }
 
         if (questions == null || questions.isEmpty()) {
             Toast.makeText(this, "No questions found", Toast.LENGTH_SHORT).show();
@@ -151,10 +162,6 @@ public class QuizQuestionActivity extends BaseActivity {
                 .toString().trim().toLowerCase();
         String correct = Html.fromHtml(q.correct_answer, Html.FROM_HTML_MODE_LEGACY)
                 .toString().trim().toLowerCase();
-        if (selected.equals(correct)) {
-            score++;
-        }
-
         if (selected.equals(correct)) {
             score++;
         }
