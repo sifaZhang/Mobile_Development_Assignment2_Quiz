@@ -1,6 +1,7 @@
 package com.group1.quiz.player;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -12,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -24,17 +24,16 @@ import com.group1.quiz.models.QuestionModel;
 import com.group1.quiz.utils.BaseActivity;
 import com.group1.quiz.utils.CustomQuiz;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class QuizQuestionActivity extends BaseActivity {
-    private TextView tvQuestionNumber, tvQuestion;
+    private TextView tvQuestionNumber, tvQuestion, tvCorrect;
     private LinearLayout layoutMultiple, layoutBoolean;
     private RadioGroup rgMultiple, rgBoolean;
     private RadioButton rb1, rb2, rb3, rb4, rbTrue, rbFalse;
-    private Button btnNext;
+    private Button btnNext, btSubmit;
 
     private List<QuestionModel> questions;
     private int currentIndex = 0;
@@ -73,6 +72,7 @@ public class QuizQuestionActivity extends BaseActivity {
         initViews();
         showQuestion();
 
+        btSubmit.setOnClickListener(v -> CheckResult());
         btnNext.setOnClickListener(v -> handleNext());
     }
 
@@ -85,6 +85,7 @@ public class QuizQuestionActivity extends BaseActivity {
 
         rgMultiple = findViewById(R.id.rgMultiple);
         rgBoolean = findViewById(R.id.rgBoolean);
+        tvCorrect = findViewById(R.id.tvCorrect);
 
         rb1 = findViewById(R.id.rb1);
         rb2 = findViewById(R.id.rb2);
@@ -95,9 +96,14 @@ public class QuizQuestionActivity extends BaseActivity {
         rbFalse = findViewById(R.id.rbFalse);
 
         btnNext = findViewById(R.id.btnNext);
+        btSubmit = findViewById(R.id.btSubmit);
     }
 
     private void showQuestion() {
+        btSubmit.setVisibility(View.VISIBLE);
+        btnNext.setVisibility(View.GONE);
+        tvCorrect.setVisibility(View.GONE);
+
         QuestionModel q = questions.get(currentIndex);
 
         tvQuestionNumber.setText("Question " + (currentIndex + 1) + "/" + questions.size());
@@ -107,6 +113,7 @@ public class QuizQuestionActivity extends BaseActivity {
 
         rgMultiple.clearCheck();
         rgBoolean.clearCheck();
+        tvCorrect.setVisibility(View.GONE);
 
         if (q.type.equals(FirebaseNodes.QuestionType.MULTIPLE)) {
             layoutMultiple.setVisibility(View.VISIBLE);
@@ -128,13 +135,9 @@ public class QuizQuestionActivity extends BaseActivity {
             rbTrue.setText(Html.fromHtml("True", Html.FROM_HTML_MODE_LEGACY).toString());
             rbFalse.setText(Html.fromHtml("False", Html.FROM_HTML_MODE_LEGACY).toString());
         }
-
-        if (currentIndex == questions.size() - 1) {
-            btnNext.setText("Submit");
-        }
     }
 
-    private void handleNext() {
+    private void CheckResult(){
         QuestionModel q = questions.get(currentIndex);
         String selectedAnswer = null;
 
@@ -155,14 +158,25 @@ public class QuizQuestionActivity extends BaseActivity {
             selectedAnswer = ((RadioButton) findViewById(id)).getText().toString();
         }
 
+        btSubmit.setVisibility(View.GONE);
+        btnNext.setVisibility(View.VISIBLE);
+        tvCorrect.setVisibility(View.VISIBLE);
+
         String selected = Html.fromHtml(selectedAnswer, Html.FROM_HTML_MODE_LEGACY)
                 .toString().trim().toLowerCase();
         String correct = Html.fromHtml(q.correct_answer, Html.FROM_HTML_MODE_LEGACY)
                 .toString().trim().toLowerCase();
         if (selected.equals(correct)) {
             score++;
+            tvCorrect.setText("Your Answer is right");
+            tvCorrect.setTextColor(Color.parseColor("#0000FF"));
         }
-
+        else {
+            tvCorrect.setText("Correct Answer: " + Html.fromHtml(q.correct_answer, Html.FROM_HTML_MODE_LEGACY).toString());
+            tvCorrect.setTextColor(Color.parseColor("#FF0000"));
+        }
+    }
+    private void handleNext() {
         if (currentIndex == questions.size() - 1) {
             finishQuiz();
         } else {

@@ -106,13 +106,36 @@
 
                 </RadioGroup>
             </LinearLayout>
-
-            <Button
-                android:id="@+id/btnNext"
-                android:text="Next"
-                style="@style/AppButtonPrimaryStyle"
-                android:layout_marginTop="20dp"
+\
+            <LinearLayout
+                android:orientation="horizontal"
+                android:gravity="center"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btSubmit"
+                    android:text="Submit"
+                    style="@style/AppButtonPrimaryStyle"
+                    android:layout_margin="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/btnNext"
+                    android:text="Next"
+                    style="@style/AppButtonPrimaryStyle"
+                    android:layout_margin="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvCorrect"
+                style="@style/TextStyle4"
+                android:textColor="#FF0000"
+                android:text="Correct Answer: "
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
