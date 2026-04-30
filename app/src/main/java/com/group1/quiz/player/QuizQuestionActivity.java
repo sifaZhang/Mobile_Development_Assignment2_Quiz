@@ -22,6 +22,7 @@ import com.group1.quiz.common.AppConstants;
 import com.group1.quiz.common.FirebaseNodes;
 import com.group1.quiz.models.QuestionModel;
 import com.group1.quiz.utils.BaseActivity;
+import com.group1.quiz.utils.CustomQuiz;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class QuizQuestionActivity extends BaseActivity {
     private int score = 0;
 
     private String tournamentId;
+    private boolean isCustom = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,19 +56,14 @@ public class QuizQuestionActivity extends BaseActivity {
 
         setHeaderTitle("Questions");
 
-        tournamentId = getIntent().getStringExtra(AppConstants.FilterType.TOURNAMENT_ID);
-        Serializable data = getIntent().getSerializableExtra(AppConstants.FilterType.QUESTIONS,  ArrayList.class);
-        if (data instanceof ArrayList<?>) {
-            ArrayList<?> rawList = (ArrayList<?>) data;
-            questions = new ArrayList<>();
-
-            for (Object obj : rawList) {
-                if (obj instanceof QuestionModel) {
-                    questions.add((QuestionModel) obj);
-                }
-            }
+        isCustom = getIntent().getBooleanExtra(AppConstants.FilterType.IS_CUSTOM, false);
+        if (isCustom){
+            tournamentId = null;
+        } else {
+            tournamentId = getIntent().getStringExtra(AppConstants.FilterType.TOURNAMENT_ID);
         }
 
+        questions = CustomQuiz.getInstance().questions;
         if (questions == null || questions.isEmpty()) {
             Toast.makeText(this, "No questions found", Toast.LENGTH_SHORT).show();
             finish();
@@ -179,6 +176,7 @@ public class QuizQuestionActivity extends BaseActivity {
         intent.putExtra(AppConstants.FilterType.SCORE, score);
         intent.putExtra(AppConstants.FilterType.TOTAL_QUESTION, questions.size());
         intent.putExtra(AppConstants.FilterType.TOURNAMENT_ID, tournamentId);
+        intent.putExtra(AppConstants.FilterType.IS_CUSTOM, isCustom);
         startActivity(intent);
         finish();
     }

@@ -19,6 +19,7 @@ import com.group1.quiz.common.AppConstants;
 import com.group1.quiz.models.TournamentModel;
 import com.group1.quiz.models.Users;
 import com.group1.quiz.utils.BaseActivity;
+import com.group1.quiz.utils.CustomQuiz;
 import com.group1.quiz.utils.FirebaseHelper_Tournaments;
 import com.group1.quiz.utils.UserManager;
 
@@ -160,9 +161,15 @@ public class TournamentDetailActivity extends BaseActivity {
     }
 
     private void startQuiz() {
-         Intent intent = new Intent(this, QuizQuestionActivity.class);
-         intent.putExtra(AppConstants.FilterType.TOURNAMENT_ID, tournamentId);
-         intent.putExtra(AppConstants.FilterType.QUESTIONS, new ArrayList<>(tournament.questions));
-         startActivity(intent);
+        CustomQuiz instance = CustomQuiz.getInstance();
+        instance.clear();
+        instance.category = tournament.category;
+        instance.difficulty = tournament.difficulty;
+        instance.questions = tournament.questions;
+
+        Intent intent = new Intent(this, QuizQuestionActivity.class);
+        intent.putExtra(AppConstants.FilterType.TOURNAMENT_ID, tournamentId);
+        intent.putExtra(AppConstants.FilterType.IS_CUSTOM, false);
+        startActivity(intent);
     }
 }

@@ -147,7 +147,7 @@ public class FirebaseHelper_Tournaments {
     // ---------------------------------------------------------
     // UPDATE RATING
     // ---------------------------------------------------------
-    public void updateRating(String tournamentId, double newRating, OnRatingUpdatedListener listener) {
+    public void updateRating(String tournamentId, String userId, double newRating, OnRatingUpdatedListener listener) {
         tournamentsRef.child(tournamentId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -171,7 +171,6 @@ public class FirebaseHelper_Tournaments {
                 tournamentsRef.child(tournamentId).setValue(model)
                         .addOnSuccessListener(unused -> {
                             // 同步记录参与者
-                            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                             addParticipant(tournamentId, userId);
 
                             listener.onSuccess(updatedRating, model.ratingCount);

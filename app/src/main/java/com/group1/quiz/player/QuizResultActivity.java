@@ -2,13 +2,13 @@ package com.group1.quiz.player;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -27,6 +27,7 @@ public class QuizResultActivity extends BaseActivity {
     private int score, total;
     private String tournamentId;
     private String userId;
+    private boolean isCustom = false;
 
     private FirebaseHelper_Tournaments dbHelper = new FirebaseHelper_Tournaments();
 
@@ -43,14 +44,13 @@ public class QuizResultActivity extends BaseActivity {
 
         setHeaderTitle("Result");
 
-        initViews();
-
-        score = getIntent().getIntExtra("score", 0);
-        total = getIntent().getIntExtra("total", 0);
-
+        score = getIntent().getIntExtra(AppConstants.FilterType.SCORE, 0);
+        total = getIntent().getIntExtra(AppConstants.FilterType.TOTAL_QUESTION, 0);
+        isCustom = getIntent().getBooleanExtra(AppConstants.FilterType.IS_CUSTOM, false);
         tournamentId = getIntent().getStringExtra(AppConstants.FilterType.TOURNAMENT_ID);
         userId = UserManager.getInstance().getUser().getUid();
 
+        initViews();
         showResults();
 
         btnSubmitRating.setOnClickListener(v -> submitRating());
@@ -62,6 +62,14 @@ public class QuizResultActivity extends BaseActivity {
         ratingBar = findViewById(R.id.ratingBar);
         btnSubmitRating = findViewById(R.id.btnSubmitRating);
         btnBack = findViewById(R.id.btnBack);
+
+        if (isCustom) {
+            btnSubmitRating.setVisibility(View.GONE);
+            ratingBar.setVisibility(View.GONE);
+
+        } else {
+            btnSubmitRating.setVisibility(View.VISIBLE);
+        }
     }
 
     private void showResults() {
@@ -78,7 +86,7 @@ public class QuizResultActivity extends BaseActivity {
             return;
         }
 
-        dbHelper.updateRating(tournamentId, rating, new FirebaseHelper_Tournaments.OnRatingUpdatedListener() {
+        dbHelper.updateRating(tournamentId, userId, rating, new FirebaseHelper_Tournaments.OnRatingUpdatedListener() {
             @Override
             public void onSuccess(double newAvg, int newCount) {
                 Toast.makeText(QuizResultActivity.this,
