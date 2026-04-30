@@ -1,5 +1,7 @@
 package com.group1.quiz.utils;
 
+import android.util.Log;
+
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -102,47 +104,34 @@ public class FirebaseHelper_Users {
     // -----------------------------
     // Combined update (DB + password)
     // -----------------------------
-    public static void updateUser(
-            String uid,
-            Map<String, Object> updates,
-            String oldPassword,
-            String newPassword,
-            UpdateCallback callback
-    ) {
+    public static void updateUser(String uid, Map<String, Object> updates, String oldPassword, String newPassword, UpdateCallback callback) {
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
             return;
         }
 
-        // Step 1: update database
-        updateUserProfile(uid, updates, new UpdateCallback() {
-            @Override
-            public void onSuccess() {
-
-                // Step 2: update password (if provided)
-                if (newPassword != null && !newPassword.isEmpty()) {
-                    AuthCredential credential = EmailAuthProvider.getCredential(
-                            currentUser.getEmail(),
-                            oldPassword
-                    );
-
-                    currentUser.reauthenticate(credential)
-                            .addOnSuccessListener(aVoid -> {
+        if (newPassword != null && !newPassword.isEmpty()) {
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(
+                            currentUser.getEmail(), oldPassword)
+                    .addOnSuccessListener(authResult -> {
+                        updateUserProfile(uid, updates, new UpdateCallback() {
+                            @Override
+                            public void onSuccess() {
                                 currentUser.updatePassword(newPassword)
-                                        .addOnSuccessListener(v -> {callback.onSuccess();})
-                                        .addOnFailureListener(e -> {callback.onFailure(e);});
-                            })
-                            .addOnFailureListener(e -> {callback.onFailure(e);});
-                } else {
-                    callback.onSuccess();
-                }
-            }
+                                        .addOnSuccessListener(v -> callback.onSuccess())
+                                        .addOnFailureListener(e -> callback.onFailure(e));
+                            }
 
-            @Override
-            public void onFailure(Exception e) {
-                callback.onFailure(e);
-            }
-        });
+                            @Override
+                            public void onFailure(Exception e) {
+                                callback.onFailure(e);
+                            }
+                        });
+                    })
+                    .addOnFailureListener(e -> callback.onFailure(e));
+        } else {
+            updateUserProfile(uid, updates, callback);
+        }
     }
 }

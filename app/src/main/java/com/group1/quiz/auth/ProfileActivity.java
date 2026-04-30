@@ -11,13 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.group1.quiz.R;
 import com.group1.quiz.common.FirebaseNodes;
 import com.group1.quiz.models.Users;
@@ -114,6 +113,11 @@ public class ProfileActivity extends BaseActivity {
             return;
         }
 
+        if (newPassword != null && !newPassword.isEmpty() && newPassword.length() < 6) {
+            Toast.makeText(this, "New password must be at least 6 characters", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (!newPassword.isEmpty() && oldPassword.isEmpty()) {
             Toast.makeText(ProfileActivity.this, "Please input old password", Toast.LENGTH_SHORT).show();
             return;
@@ -142,9 +146,12 @@ public class ProfileActivity extends BaseActivity {
 
             @Override
             public void onFailure(Exception e) {
-                if (e instanceof FirebaseAuthInvalidCredentialsException ||
-                        e instanceof IllegalArgumentException) {
+                if (e instanceof FirebaseAuthInvalidCredentialsException) {
                     Toast.makeText(ProfileActivity.this, "Old password is incorrect", Toast.LENGTH_SHORT).show();
+                } else if (e instanceof FirebaseAuthWeakPasswordException) {
+                    Toast.makeText(ProfileActivity.this, "New password must be at least 6 characters", Toast.LENGTH_SHORT).show();
+                } else if (e instanceof IllegalArgumentException) {
+                    Toast.makeText(ProfileActivity.this, "Password cannot be empty", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(ProfileActivity.this, "Update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
